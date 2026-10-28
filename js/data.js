@@ -23,11 +23,11 @@ const VEHICLE_LABEL = {
 
 // Vibes → featured package ids
 const VIBES = [
-  { id: 'Mountains', img: 'images/himachal.jpg', pkgs: ['himachal', 'uttarakhand'] },
+  { id: 'Mountains', img: 'images/himachal.jpg', pkgs: ['himachal', 'uttarakhand', 'kashmir', 'northeast'] },
   { id: 'Spiritual', img: 'images/vibe-spiritual.jpg', pkgs: ['uttarakhand', 'thailand'] },
-  { id: 'Beaches', img: 'images/vibe-beaches.jpg', pkgs: ['srilanka'] },
-  { id: 'Cities', img: 'images/vibe-cities.jpg', pkgs: ['malaysia', 'vietnam', 'thailand'] },
-  { id: 'Honeymoon', img: 'images/vibe-honeymoon.jpg', pkgs: ['himachal', 'srilanka', 'vietnam'] }
+  { id: 'Beaches', img: 'images/vibe-beaches.jpg', pkgs: ['srilanka', 'goa'] },
+  { id: 'Cities', img: 'images/vibe-cities.jpg', pkgs: ['malaysia', 'vietnam', 'thailand', 'rajasthan'] },
+  { id: 'Honeymoon', img: 'images/vibe-honeymoon.jpg', pkgs: ['himachal', 'srilanka', 'vietnam', 'kashmir', 'goa'] }
 ];
 
 const WHO = [['Couple', 2], ['Family', 4], ['Friends', 4], ['Group', 10], ['Solo', 1]];

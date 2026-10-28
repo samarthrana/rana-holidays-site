@@ -58,6 +58,110 @@ const PACKAGES = [
   "per": "per person"
  },
  {
+  "id": "kashmir",
+  "url": "trips/enchanting-kashmir.html",
+  "group": "india",
+  "vibe": "Mountains",
+  "name": "Enchanting Kashmir",
+  "duration": "6N / 7D",
+  "route": [
+   [
+    "Srinagar",
+    "2N"
+   ],
+   [
+    "Gulmarg",
+    "1N"
+   ],
+   [
+    "Sonmarg",
+    "1N"
+   ],
+   [
+    "Pahalgam",
+    "1N"
+   ],
+   [
+    "Srinagar",
+    "1N"
+   ]
+  ],
+  "start": "Delhi ✈",
+  "price": "₹25,000",
+  "per": "per person"
+ },
+ {
+  "id": "rajasthan",
+  "url": "trips/jaisalmer-jodhpur.html",
+  "group": "india",
+  "vibe": "Cities",
+  "name": "Jaisalmer & Jodhpur",
+  "duration": "5N / 6D",
+  "route": [
+   [
+    "Jaisalmer",
+    "2N"
+   ],
+   [
+    "Sam Dunes",
+    "1N"
+   ],
+   [
+    "Jodhpur",
+    "2N"
+   ]
+  ],
+  "start": "Delhi ✈",
+  "price": "₹32,000",
+  "per": "per person"
+ },
+ {
+  "id": "northeast",
+  "url": "trips/seven-sisters-scenic-trail.html",
+  "group": "india",
+  "vibe": "Mountains",
+  "name": "Seven Sisters Scenic Trail",
+  "duration": "4N / 5D",
+  "route": [
+   [
+    "Kaziranga",
+    "2N"
+   ],
+   [
+    "Shillong",
+    "2N"
+   ],
+   [
+    "Cherrapunjee",
+    "Day 4"
+   ]
+  ],
+  "start": "Delhi ✈",
+  "price": "₹38,000",
+  "per": "per person"
+ },
+ {
+  "id": "goa",
+  "url": "trips/complete-goa-odyssey.html",
+  "group": "india",
+  "vibe": "Beaches",
+  "name": "The Complete Goa Odyssey",
+  "duration": "6N / 7D",
+  "route": [
+   [
+    "North Goa",
+    "3N"
+   ],
+   [
+    "South Goa",
+    "3N"
+   ]
+  ],
+  "start": "Delhi ✈",
+  "price": "₹35,000",
+  "per": "per person"
+ },
+ {
   "id": "thailand",
   "url": "trips/thailand-grand-discovery.html",
   "group": "intl",
