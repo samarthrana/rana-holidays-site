@@ -9,11 +9,13 @@
   <meta property="og:site_name" content="Rana Holidays">
   <meta property="og:title" content="Seven Sisters Scenic Trail, 4N / 5D | Rana Holidays">
   <meta property="og:description" content="Rhino safaris, Shillong hills, Cherrapunjee falls. 4N / 5D through Kaziranga, Shillong and Cherrapunjee: day-by-day plan, hotels and price from ₹38,000 per person.">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='16' fill='%23173B2F'/%3E%3Ctext x='16' y='22' font-family='Georgia' font-size='18' font-weight='bold' fill='%23E9B44C' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/site.css?v=09d45cbe">
+  <link rel="stylesheet" href="../css/site.css?v=5fd975c8">
 </head>
 <body>
 
@@ -26,6 +28,7 @@
   <symbol id="i-bed" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M2 19V5m0 9h20v5m0-5v-2a3 3 0 0 0-3-3h-8v5M7 11.5a1.5 1.5 0 1 0 0-.01"/></symbol>
   <symbol id="i-receipt" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5 2h14v20l-3-2-2 2-2-2-2 2-2-2-3 2V2Zm4 6h6m-6 4h6m-6 4h3"/></symbol>
   <symbol id="i-clock" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-15v5l3 2"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Zm5.4-2.1L21 21"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></symbol>
   <symbol id="i-plane" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2Z"/></symbol>
   <symbol id="i-van" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M2 17V7a2 2 0 0 1 2-2h11l5 5h1a1 1 0 0 1 1 1v6h-2M2 17h3m4 0h6M6 5v5h14M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></symbol>
@@ -40,8 +43,7 @@
 <header class="site-header">
   <div class="wrap header-row">
     <a class="brand" href="../index.html" aria-label="Rana Holidays, home">
-      <span class="brand-mark" aria-hidden="true">R</span>
-      <span class="brand-name">Rana <em>Holidays</em></span>
+      <img src="../logo/rana-holidays-logo.svg" alt="" width="131" height="46">
     </a>
     <nav class="nav" id="nav" aria-label="Main">
       <a href="../index.html#packages">Packages</a>
@@ -50,12 +52,18 @@
       <a href="../index.html#fleet">Cabs &amp; Travellers</a>
       <a href="../index.html#contact">Contact</a>
     </nav>
+    <button class="search-btn" id="searchBtn" type="button" aria-expanded="false" aria-controls="searchPanel" aria-label="Search trips">
+      <svg class="ic"><use href="#i-search"/></svg><span>Search trips</span>
+    </button>
     <a class="btn btn-wa btn-sm header-cta" href="https://wa.me/918130587859?text=Hi%20Rana%20Holidays!%20I&#x27;d%20like%20help%20planning%20a%20trip." target="_blank" rel="noopener">
       <svg class="ic"><use href="#i-wa"/></svg><span>WhatsApp us</span>
     </a>
     <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
+  </div>
+  <div class="search-panel" id="searchPanel" hidden>
+    <div class="wrap"><form class="trip-search" role="search" action="../index.html#packages" data-root="../"><label class="sr-only" for="qTop">Search trips by place</label><svg class="ic"><use href="#i-search"/></svg><input id="qTop" type="search" placeholder="Search a place or trip, e.g. Kathmandu" autocomplete="off" spellcheck="false" enterkeyhint="go" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="qTop-list"><div class="search-list" id="qTop-list" role="listbox" aria-label="Trips" hidden></div><div class="search-none" hidden></div><p class="sr-only search-status" aria-live="polite"></p></form></div>
   </div>
 </header>
 
@@ -159,12 +167,12 @@
 <footer class="footer">
   <div class="wrap footer-grid">
     <div>
-      <a class="brand brand-light" href="../index.html"><span class="brand-mark" aria-hidden="true">R</span><span class="brand-name">Rana <em>Holidays</em></span></a>
+      <a class="brand" href="../index.html"><img src="../logo/rana-holidays-logo-white.svg" alt="Rana Holidays" width="153" height="54"></a>
       <p class="footer-about">Private holidays across India and Asia, plus cabs, Urbanias and Tempo Travellers on hire from Delhi.</p>
     </div>
     <div>
       <h2>Holidays</h2>
-      <ul><li>Himachal Pradesh</li><li>Jammu &amp; Kashmir</li><li>Uttarakhand</li><li>Char Dham Yatra</li><li>Rajasthan</li><li>Goa</li><li>Northeast India</li><li>Thailand</li><li>Vietnam</li><li>Malaysia</li><li>Sri Lanka</li></ul>
+      <ul><li>Himachal Pradesh</li><li>Jammu &amp; Kashmir</li><li>Uttarakhand</li><li>Char Dham Yatra</li><li>Ayodhya &amp; Varanasi</li><li>Rajasthan</li><li>Gujarat</li><li>Goa</li><li>Andaman Islands</li><li>Northeast India</li><li>Thailand</li><li>Vietnam</li><li>Malaysia</li><li>Sri Lanka</li><li>Bhutan</li><li>Nepal</li></ul>
     </div>
     <div>
       <h2>Vehicles</h2>
@@ -183,7 +191,9 @@
   </div>
 </footer>
 
-<script src="../js/common.js?v=eadbde97"></script>
+<script src="../js/site-data.js?v=4005d1e2"></script>
+<script src="../js/common.js?v=ce9ad53d"></script>
+<script src="../js/search.js?v=fa5105dc"></script>
 <script src="../js/trip.js?v=3c028ded"></script>
 </body>
 </html>
