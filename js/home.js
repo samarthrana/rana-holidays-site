@@ -4,9 +4,6 @@ const pkgById = Object.fromEntries(PACKAGES.map(p => [p.id, p]));
 const fleetById = Object.fromEntries(FLEET.map(v => [v.id, v]));
 const CHARDHAM = { id: 'chardham', name: 'Char Dham Yatra', duration: '',
   route: [['Yamunotri', ''], ['Gangotri', ''], ['Kedarnath', ''], ['Badrinath', '']], start: 'Haridwar' };
-const icon = id => `<svg class="ic"><use href="#${id}"/></svg>`;
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-const waLink = text => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
 const daysOf = pkg => +((pkg.duration.match(/(\d+)\s*D/) || [])[1] || 0);
 const plural = (n, one, many) => `${n} ${n == 1 ? one : many}`;
 // Typed numbers are clamped to the input's own min/max and rounded (no "-3 people", "2.5 days")
@@ -304,19 +301,9 @@ $$('[data-style]').forEach(t => t.addEventListener('click', () => {
 }));
 
 // ---------- fleet ----------
-const SHAPES = {
-  car: '<path d="M18 62h164M30 62c-8 0-12-4-12-10v-6l18-4 26-16h66l30 16 20 4c6 2 8 6 8 10v6H30Z"/><path d="M70 30l-14 12h40V30Zm34 0v12h46l-24-12Z"/>',
-  mpv: '<path d="M16 62h168M26 62c-6 0-10-4-10-10V40l10-14h108l30 14 14 4c4 2 6 6 6 10v8H26Z"/><path d="M34 30l-6 12h34V30Zm36 0v12h36V30Zm44 0v12h44l-26-12Z"/>',
-  van: '<path d="M12 64h176M22 64c-6 0-10-4-10-10V22c0-6 4-10 10-10h122c8 0 14 4 18 10l16 22c6 2 10 6 10 12v8H22Z"/><path d="M26 22h22v18H26Zm30 0h22v18H56Zm30 0h22v18H86Zm30 0h22v18h-22Zm30 0h10l12 18h-22Z"/>',
-  bus: '<path d="M8 64h184M18 64c-6 0-10-4-10-10V18c0-6 4-8 10-8h138c8 0 12 2 16 8l14 26c4 2 6 6 6 10v10H18Z"/><path d="M20 20h20v18H20Zm26 0h20v18H46Zm26 0h20v18H72Zm26 0h20v18H98Zm26 0h20v18h-20Zm26 0h8l12 18h-20Z"/>'
-};
-function vehicleArt(shape) {
-  return `<svg viewBox="0 0 200 80" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">${SHAPES[shape]}</g>
-    <g fill="currentColor"><circle cx="50" cy="64" r="9"/><circle cx="150" cy="64" r="9"/></g></svg>`;
-}
 $('#fleetGrid').innerHTML = FLEET.map(v => `
   <article class="vcard${v.premium ? ' premium' : ''}">
-    <div class="vphoto" data-placeholder="vehicle photo">${vehicleArt(v.shape)}${v.premium ? '<span class="prem">Premium seats</span>' : ''}</div>
+    <div class="vphoto"><img src="${v.img}" alt="" loading="lazy">${v.premium ? '<span class="prem">Premium seats</span>' : ''}</div>
     <div class="vbody">
       <div class="vtop"><h3>${esc(v.name)}</h3><span class="seats">${icon('i-users')}${esc(v.seats)}</span></div>
       <p class="vmodel">${esc(v.models)}</p>
@@ -346,6 +333,20 @@ if ('IntersectionObserver' in window) {
 
 syncTabs($('.mode'));
 render();
+
+// ---------- reviews: one row that scrolls sideways; the arrows move one card (a mouse wheel can't scroll sideways) ----------
+const reviewRow = $('#reviewRow'), reviewBtns = $$('.review-btn');
+function syncReviewBtns() {
+  const end = reviewRow.scrollWidth - reviewRow.clientWidth;
+  reviewBtns.forEach(b => { b.disabled = b.dataset.dir < 0 ? reviewRow.scrollLeft <= 1 : reviewRow.scrollLeft >= end - 1; });
+}
+reviewBtns.forEach(b => b.addEventListener('click', () => {
+  const step = $('.review', reviewRow).offsetWidth + parseFloat(getComputedStyle(reviewRow).columnGap);
+  reviewRow.scrollBy({ left: b.dataset.dir * step, behavior: scrollMode() });
+}));
+reviewRow.addEventListener('scroll', syncReviewBtns, { passive: true });
+addEventListener('resize', syncReviewBtns);
+syncReviewBtns();
 
 // Arriving from a trip page's "Plan this trip"
 { const id = new URLSearchParams(location.search).get('plan'); if (Object.hasOwn(pkgById, id)) planTrip(id); }

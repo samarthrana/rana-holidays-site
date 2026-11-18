@@ -1,7 +1,10 @@
-// Rana Holidays: shared by the home page and the trip pages.
+// Rana Holidays: shared by the home page and the trip pages. Needs site-data.js.
 
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const icon = id => `<svg class="ic"><use href="#${id}"/></svg>`;
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const waLink = text => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
 const scrollMode = () => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
 
 // role="tab" lists: only the selected tab is in the Tab order; Left/Right/Home/End move between tabs
