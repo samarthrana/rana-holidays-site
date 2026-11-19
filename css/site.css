@@ -85,7 +85,8 @@ h1, h2 { text-wrap: balance; }
 .hero .hero-ctas { justify-content: flex-start; }
 .hero-search { max-width: 560px; margin-top: 28px; }
 .hero-search input { height: 56px; border-color: transparent; box-shadow: 0 10px 30px rgb(0 0 0 / .25); }
-.chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 14px; }
+.chips { display: flex; align-items: baseline; gap: 8px; margin-top: 14px; }
+.chips-list { display: flex; flex-wrap: wrap; gap: 8px; }   /* a chip that wraps lines up under the first chip, not under "Try:" */
 
 /* ---------- trip search (top bar and hero) ---------- */
 .trip-search { position: relative; display: flex; align-items: center; }
@@ -241,29 +242,33 @@ html:has(.cal:modal) { overflow: hidden; }
 @keyframes tear { 30% { transform: translateY(30px) rotate(5deg); } 100% { transform: translateY(160px) rotate(14deg); opacity: 0; } }
 
 /* route line: stops over a track that fills left to right */
-.route-line { position: relative; display: grid; grid-template-columns: repeat(var(--n), 1fr); margin: 0; padding: 0; list-style: none; }
+.route-line { --step: .16s; position: relative; display: grid; grid-template-columns: repeat(var(--n), 1fr); margin: 0; padding: 0; list-style: none; }
 .route-line::before, .route-line::after { content: ""; position: absolute; top: 7px; left: calc(50% / var(--n)); right: calc(50% / var(--n)); height: 2px; }
 .route-line::before { background: repeating-linear-gradient(90deg, var(--line) 0 6px, transparent 6px 11px); }
 .route-line::after { background: var(--gold-2); transform-origin: left; transform: scaleX(0); }
-.route-line.drawn::after { transition: transform calc(var(--n) * .16s) ease-out; transform: scaleX(1); }
+.route-line.drawn::after { transition: transform calc(var(--n) * var(--step)) ease-out; transform: scaleX(1); }
 .route-line li { position: relative; z-index: 1; display: grid; justify-items: center; align-content: start; text-align: center; gap: 2px; min-width: 0; padding: 0 2px; }
-.route-line .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 2px solid var(--line); transition: all .3s; transition-delay: calc(var(--i) * .16s); }
+.route-line .dot { width: 16px; height: 16px; border-radius: 50%; background: var(--paper); border: 2px solid var(--line); transition: all .3s; transition-delay: calc(var(--i) * var(--step)); }
 .route-line.drawn .dot { border-color: var(--gold-2); background: var(--gold); box-shadow: 0 0 0 4px rgb(233 180 76 / .2); }
 .route-line li:first-child .dot { background: var(--green); border-color: var(--green); }
 .route-line b { font-size: .8rem; font-weight: 700; line-height: 1.2; color: var(--ink); hyphens: auto; -webkit-hyphens: auto; }
-.route-line small { font-size: .7rem; font-weight: 800; color: var(--gold-text); opacity: 0; transform: translateY(-4px); transition: all .3s; transition-delay: calc(var(--i) * .16s + .1s); }
+.route-line small { font-size: .7rem; font-weight: 800; color: var(--gold-text); opacity: 0; transform: translateY(-4px); transition: all .3s; transition-delay: calc(var(--i) * var(--step) + .1s); }
 .route-line.drawn small { opacity: 1; transform: none; }
 .route-line li:first-child small { color: var(--muted); }
-/* 5+ stops in a narrow box (phone card, ticket, tablet): vertical timeline, so names can never collide.
-   Container query = decided by the box's own width, not the screen's. */
+.route-line b.unset { font-weight: 500; font-style: italic; color: var(--muted); }   /* "Destination" until one is typed */
+/* 5+ stops in a narrow box (cards on every screen, phone ticket): vertical timeline, so names can never collide.
+   Container query = decided by the box's own width, not the screen's. The line runs through the dot centres (li has
+   no side padding), 12px between stops keeps it visible between the rings, nights share one column (subgrid; older
+   browsers keep 16px auto auto), and it draws at 0.3s a stop, reaching each dot as it lights. */
 .t-route, .card-body { container-type: inline-size; }
 @container (max-width: 470px) {
-  .route-line.many { grid-template-columns: 1fr; gap: 4px; }
+  .route-line.many { --step: .3s; grid-template-columns: 16px auto 1fr; gap: 12px; }
   .route-line.many::before, .route-line.many::after { top: 8px; bottom: 8px; left: 7px; right: auto; width: 2px; height: auto; }
   .route-line.many::before { background: repeating-linear-gradient(180deg, var(--line) 0 5px, transparent 5px 9px); }
   .route-line.many::after { transform-origin: top; transform: scaleY(0); }
-  .route-line.many.drawn::after { transform: scaleY(1); }
-  .route-line.many li { grid-template-columns: 16px auto auto; justify-content: start; justify-items: start; align-items: center; gap: 10px; text-align: left; }
+  .route-line.many.drawn::after { transform: scaleY(1); transition-duration: calc((var(--n) - 1) * var(--step)); transition-timing-function: linear; }
+  .route-line.many.drawn .dot { box-shadow: 0 0 0 3px rgb(233 180 76 / .2); }
+  .route-line.many li { grid-column: 1 / -1; grid-template-columns: 16px auto auto; grid-template-columns: subgrid; justify-content: start; justify-items: start; align-items: center; gap: 12px; padding: 0; text-align: left; }
   .route-line.many b { font-size: .86rem; }
   .route-line.many small { transform: translateX(-4px); }
   .route-line.many.drawn small { transform: none; }
@@ -314,7 +319,7 @@ html:has(.cal:modal) { overflow: hidden; }
 .card-actions .btn { padding: .75em 1.1em; font-size: .92rem; }
 
 /* trip styles */
-.styles { padding-top: 0; }
+.section.styles { padding-top: 0; }   /* joins the packages above; .section.x so the phone `.section { padding }` can't undo it */
 .style-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
 .style-tile { position: relative; display: flex; align-items: flex-end; min-height: 300px; padding: 0; border: 0; border-radius: var(--radius); overflow: hidden; text-align: left; cursor: pointer; color: #fff; background: var(--green); font: inherit; }
 .style-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s; }
@@ -370,7 +375,7 @@ html:has(.cal:modal) { overflow: hidden; }
 .why-list p { margin: 6px 0 0; color: var(--muted); font-size: .95rem; }
 
 /* reviews */
-.reviews { padding-top: 0; }
+.section.reviews { padding-top: 0; }   /* .section.x, not .x: the phone `.section { padding }` comes later and would win */
 /* one row that scrolls sideways; about 2.4 cards show, so the next one peeks in */
 .review-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; max-width: none; }
 .review-nav { display: flex; gap: 8px; flex: none; }

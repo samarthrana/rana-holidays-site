@@ -24,11 +24,12 @@ function pick(form, name, value) {
 }
 const checked = (form, name) => $$(`input[name="${name}"]:checked`, form).map(i => i.value);
 
-// Route line for the ticket (cards and trip pages carry the same markup in their HTML)
+// Route line for the ticket (cards and trip pages carry the same markup in their HTML).
+// A stop is [place, note, unset?]: an unset stop is a muted stand-in ("Destination") until the visitor types one.
 function routeHTML(start, stops) {
   const all = [[start, 'start'], ...stops];
-  return `<ol class="route-line${all.length >= 5 ? ' many' : ''}" style="--n:${all.length}">${all.map(([c, n], i) =>
-    `<li style="--i:${i}"><i class="dot"></i><b>${esc(c)}</b><small>${esc(n)}</small></li>`).join('')}</ol>`;
+  return `<ol class="route-line${all.length >= 5 ? ' many' : ''}" style="--n:${all.length}">${all.map(([c, n, unset], i) =>
+    `<li style="--i:${i}"><i class="dot"></i><b${unset ? ' class="unset"' : ''}>${esc(c)}</b><small>${esc(n)}</small></li>`).join('')}</ol>`;
 }
 function draw(el) { el.classList.remove('drawn'); void el.offsetWidth; el.classList.add('drawn'); }
 
@@ -316,8 +317,9 @@ function render() {
     if (s.needs.length) rows.push(['Needs', s.needs.join(', ')]);
   } else {
     const s = vehicleState();
-    title = `${s.from} → ${s.to.trim() || 'where to?'}`;
-    route = routeHTML(s.from, [[s.to.trim() || '…', plural(s.days, 'day', 'days')]]);
+    const to = s.to.trim();
+    title = `${s.from} → ${to || 'where to?'}`;
+    route = routeHTML(s.from, [[to || 'Destination', plural(s.days, 'day', 'days'), !to]]);
     rows.push(s.date ? ['Date', niceDate(s.date)] : ['Date', 'Pick a date', true]);
     rows.push(['Passengers', String(s.n)]);
     if (s.vehicle) rows.push(['Vehicle', s.vehicle]);
