@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/site.css?v=5fd975c8">
+  <link rel="stylesheet" href="../css/site.css?v=fece24ec">
 </head>
 <body>
 
@@ -30,6 +30,12 @@
   <symbol id="i-clock" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-15v5l3 2"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Zm5.4-2.1L21 21"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-mountain" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="m3 19 6.5-10 4 6 2.5-3.5L21 19Z"/></symbol>
+  <symbol id="i-fort" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M3 20V8h3v2h2V8h3v2h2V8h3v2h2V8h3v12ZM10 20v-4.5a2 2 0 0 1 4 0V20"/></symbol>
+  <symbol id="i-palm" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" d="M12 21v-9m0 0c-1.5-3-5.5-3.5-8-1.5m8 1.5c1.5-3 5.5-3.5 8-1.5M12 12c-.5-3.5-3.5-5.5-7-5m7 5c.5-3.5 3.5-5.5 7-5M4 21h16"/></symbol>
+  <symbol id="i-stupa" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 3v3m-4 5a4 4 0 0 1 8 0Zm-2 0h12M7 11v3h10v-3M8 14l-1 6m9-6 1 6M4 20h16"/></symbol>
+  <symbol id="i-pagoda" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" d="M12 3v2M5 9h14l-3-3.5H8ZM7 9v3m10-3v3M3 15h18l-3-3H6Zm3 0v5h12v-5m-8 5v-3h4v3"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M5.5 5h13A1.5 1.5 0 0 1 20 6.5v12a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5v-12A1.5 1.5 0 0 1 5.5 5ZM4 10h16M8 3v4m8-4v4"/></symbol>
   <symbol id="i-plane" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2Z"/></symbol>
   <symbol id="i-van" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M2 17V7a2 2 0 0 1 2-2h11l5 5h1a1 1 0 0 1 1 1v6h-2M2 17h3m4 0h6M6 5v5h14M7 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm10 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z"/></symbol>
   <symbol id="i-temple" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M12 2v3m0 0-4 6h8l-4-6ZM6 11h12v3H6zM4 14h16v7H4zm6 7v-4h4v4"/></symbol>
@@ -46,7 +52,10 @@
       <img src="../logo/rana-holidays-logo.svg" alt="" width="131" height="46">
     </a>
     <nav class="nav" id="nav" aria-label="Main">
-      <a href="../index.html#packages">Packages</a>
+      <div class="nav-pk">
+        <button class="nav-pk-btn" id="pkBtn" type="button" aria-expanded="false" aria-controls="pkMenu">Packages<i class="chev" aria-hidden="true"></i></button>
+        <div class="mm" id="pkMenu" hidden><div class="mm-top" aria-hidden="true"><span>India</span><span>International</span></div><div class="mm-cols"><div><div class="mm-g"><p class="mm-h" id="mm-h0"><svg class="ic"><use href="#i-mountain"/></svg>North India &amp; Himalayas</p><ul aria-labelledby="mm-h0"><li><a href="../trips/himachal-delight.html">Himachal Delight<small>7N / 8D<span> · from ₹35,000</span></small></a></li><li><a href="../trips/enchanting-kashmir.html">Enchanting Kashmir<small>6N / 7D<span> · from ₹25,000</span></small></a></li><li><a href="../trips/wonderful-uttarakhand.html">Wonderful Uttarakhand<small>7N / 8D<span> · from ₹18,300</span></small></a></li><li><a href="../trips/jim-corbett-national-park.html">Jim Corbett National Park Tour<small>3N / 4D<span> · from ₹22,000</span></small></a></li></ul></div><div class="mm-g"><p class="mm-h" id="mm-h1"><svg class="ic"><use href="#i-temple"/></svg>Pilgrimages</p><ul aria-labelledby="mm-h1"><li><a href="../trips/ayodhya-prayagraj-varanasi.html">Ayodhya, Prayagraj &amp; Varanasi<small>5N / 6D<span> · from ₹21,500</span></small></a></li><li><a href="../index.html?plan=chardham#plan">Char Dham Yatra<small>Dates and price on request<span></span></small></a></li></ul></div></div><div><div class="mm-g"><p class="mm-h" id="mm-h2"><svg class="ic"><use href="#i-fort"/></svg>West India</p><ul aria-labelledby="mm-h2"><li><a href="../trips/jaisalmer-jodhpur.html">Jaisalmer &amp; Jodhpur<small>5N / 6D<span> · from ₹32,000</span></small></a></li><li><a href="../trips/rann-of-kutch.html">Rann of Kutch<small>4N / 5D<span> · from ₹25,000</span></small></a></li><li><a href="../trips/complete-goa-odyssey.html">The Complete Goa Odyssey<small>6N / 7D<span> · from ₹35,000</span></small></a></li></ul></div><div class="mm-g"><p class="mm-h" id="mm-h3"><svg class="ic"><use href="#i-palm"/></svg>East &amp; Islands</p><ul aria-labelledby="mm-h3"><li><a href="../trips/seven-sisters-scenic-trail.html">Seven Sisters Scenic Trail<small>4N / 5D<span> · from ₹38,000</span></small></a></li><li><a href="../trips/andaman-islands.html">Andaman Island Escape<small>4N / 5D<span> · from ₹26,000</span></small></a></li></ul></div></div><div><div class="mm-g"><p class="mm-h" id="mm-h4"><svg class="ic"><use href="#i-stupa"/></svg>South Asia</p><ul aria-labelledby="mm-h4"><li><a href="../trips/nepal-kathmandu-pokhara.html">Nepal: Kathmandu &amp; Pokhara<small>4N / 5D<span> · from ₹29,500</span></small></a></li><li><a href="../trips/bhutan-thimphu-punakha-paro.html">Bhutan: Thimphu, Punakha &amp; Paro<small>5N / 6D<span> · from ₹40,000</span></small></a></li><li><a href="../trips/discover-sri-lanka.html">Discover the Beauty of Sri Lanka<small>4N / 5D<span> · from ₹41,000</span></small></a></li></ul></div><div class="mm-g"><p class="mm-h" id="mm-h5"><svg class="ic"><use href="#i-pagoda"/></svg>Southeast Asia</p><ul aria-labelledby="mm-h5"><li><a href="../trips/phuket-krabi.html">Phuket &amp; Krabi<small>4N / 5D<span> · from ₹43,000</span></small></a></li><li><a href="../trips/hanoi-halong-saigon.html">Hanoi, Ha Long Bay &amp; Saigon<small>6N / 7D<span> · from ₹66,000</span></small></a></li><li><a href="../trips/malaysia-escape.html">Malaysia Escape<small>4N / 5D<span> · from ₹26,140</span></small></a></li></ul></div></div></div><div class="mm-foot"><a href="../index.html#packages">See all 16 trips →</a><a class="mm-wa" href="https://wa.me/918130587859?text=Hi%20Rana%20Holidays!%20I%20would%20like%20help%20planning%20a%20trip." target="_blank" rel="noopener">Can't find your trip? Ask us on WhatsApp →</a></div></div>
+      </div>
       <a href="../index.html#styles">Trip styles</a>
       <a href="../index.html#plan">Plan a trip</a>
       <a href="../index.html#fleet">Cabs &amp; Travellers</a>
@@ -171,10 +180,7 @@
       <a class="brand" href="../index.html"><img src="../logo/rana-holidays-logo-white.svg" alt="Rana Holidays" width="153" height="54"></a>
       <p class="footer-about">Private holidays across India and Asia, plus cabs, Urbanias and Tempo Travellers on hire from Delhi.</p>
     </div>
-    <div>
-      <h2>Holidays</h2>
-      <ul><li>Himachal Pradesh</li><li>Jammu &amp; Kashmir</li><li>Uttarakhand</li><li>Char Dham Yatra</li><li>Ayodhya &amp; Varanasi</li><li>Rajasthan</li><li>Gujarat</li><li>Goa</li><li>Andaman Islands</li><li>Northeast India</li><li>Thailand</li><li>Vietnam</li><li>Malaysia</li><li>Sri Lanka</li><li>Bhutan</li><li>Nepal</li></ul>
-    </div>
+    <div class="fh"><h2>Holidays</h2><div class="fh-cols"><div><div class="fg"><h3>North India &amp; Himalayas</h3><ul><li><a href="../trips/himachal-delight.html">Himachal Pradesh</a></li><li><a href="../trips/enchanting-kashmir.html">Jammu &amp; Kashmir</a></li><li><a href="../trips/wonderful-uttarakhand.html">Uttarakhand</a></li><li><a href="../trips/jim-corbett-national-park.html">Jim Corbett</a></li></ul></div><div class="fg"><h3>Pilgrimages</h3><ul><li><a href="../trips/ayodhya-prayagraj-varanasi.html">Ayodhya &amp; Varanasi</a></li><li><a href="../index.html?plan=chardham#plan">Char Dham Yatra</a></li></ul></div><div class="fg"><h3>West India</h3><ul><li><a href="../trips/jaisalmer-jodhpur.html">Rajasthan</a></li><li><a href="../trips/rann-of-kutch.html">Rann of Kutch</a></li><li><a href="../trips/complete-goa-odyssey.html">Goa</a></li></ul></div><div class="fg"><h3>East &amp; Islands</h3><ul><li><a href="../trips/seven-sisters-scenic-trail.html">Northeast India</a></li><li><a href="../trips/andaman-islands.html">Andaman Islands</a></li></ul></div></div><div><div class="fg"><h3>South Asia</h3><ul><li><a href="../trips/nepal-kathmandu-pokhara.html">Nepal</a></li><li><a href="../trips/bhutan-thimphu-punakha-paro.html">Bhutan</a></li><li><a href="../trips/discover-sri-lanka.html">Sri Lanka</a></li></ul></div><div class="fg"><h3>Southeast Asia</h3><ul><li><a href="../trips/phuket-krabi.html">Thailand</a></li><li><a href="../trips/hanoi-halong-saigon.html">Vietnam</a></li><li><a href="../trips/malaysia-escape.html">Malaysia</a></li></ul></div></div></div></div>
     <div>
       <h2>Vehicles</h2>
       <ul><li>Sedan (Dzire / Aura)</li><li>Ertiga</li><li>Innova Crysta</li><li>Force Urbania</li><li>Tempo Traveller</li></ul>
@@ -184,6 +190,7 @@
       <ul>
         <li><a href="tel:+918130587859">+91 81305 87859</a></li>
         <li><a href="https://wa.me/918130587859?text=Hi%20Rana%20Holidays!%20I&#x27;d%20like%20help%20planning%20a%20trip." target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="mailto:info@ranaholidays.in">info@ranaholidays.in</a></li>
       </ul>
     </div>
   </div>
@@ -192,9 +199,9 @@
   </div>
 </footer>
 
-<script src="../js/site-data.js?v=4005d1e2"></script>
-<script src="../js/common.js?v=ce9ad53d"></script>
-<script src="../js/search.js?v=fa5105dc"></script>
+<script src="../js/site-data.js?v=55134a59"></script>
+<script src="../js/common.js?v=c4e8ad55"></script>
+<script src="../js/search.js?v=602a20b6"></script>
 <script src="../js/trip.js?v=3c028ded"></script>
 </body>
 </html>

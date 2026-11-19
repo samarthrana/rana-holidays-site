@@ -51,20 +51,52 @@ chips($('#whoChips'), 'who', WHO.map(([w]) => [w, w]));
 chips($('#vibeChips'), 'vibe', VIBES.map(v => [v.id, v.id]));
 chips($('#hNeeds'), 'needs', NEEDS_HOLIDAY.map(n => [n, n]), 'checkbox');
 
-const now = new Date();
-const months = Array.from({ length: 12 }, (_, i) => new Date(now.getFullYear(), now.getMonth() + i, 1));
-chips($('#monthChips'), 'month', months.map(d => [
-  d.toLocaleString('en-IN', { month: 'long', year: 'numeric' }),
-  d.toLocaleString('en-GB', { month: 'short' }).slice(0, 3) + " '" + String(d.getFullYear()).slice(2)]));  // "Sep", not "Sept"
-
+// Trip list: India and International trips by name (a vibe narrows them). No length or price here: this is a custom
+// request (the visitor sets the days; the reply on WhatsApp carries the plan and the price).
+// The rows are radio buttons, so the choice, arrow keys and screen readers work as in any radio group.
+const destBtn = $('#destBtn'), destList = $('#destChips');
 function fillDest(vibe) {
-  const v = VIBES.find(x => x.id === vibe);
-  const list = (v ? v.pkgs : PACKAGES.map(p => p.id)).map(id => [id, pkgById[id].name]);
-  if (vibe === 'Spiritual') list.unshift(['chardham', 'Char Dham Yatra']);
-  list.push(['suggest', 'Suggest for me', 'i-star']);
-  chips($('#destChips'), 'dest', list);
+  const v = VIBES.find(x => x.id === vibe), ids = v ? v.pkgs : PACKAGES.map(p => p.id);
+  const opt = (value, name) => `<label class="pick-opt"><input type="radio" name="dest" value="${esc(value)}"><span><b>${esc(name)}</b></span></label>`;
+  const group = (g, label, first = '') => {
+    const rows = first + ids.map(id => pkgById[id]).filter(p => p.group === g).map(p => opt(p.id, p.name)).join('');
+    return rows ? `<div role="group" aria-label="${label}"><p class="pick-group" aria-hidden="true">${label}</p>${rows}</div>` : '';
+  };
+  destList.innerHTML = group('india', 'India', vibe === 'Spiritual' ? opt('chardham', 'Char Dham Yatra') : '') + group('intl', 'International');
 }
 fillDest('');
+
+function paintTrip() {
+  const p = holidayState().pkg;
+  $('.pick-val', destBtn).textContent = p ? p.name : 'Choose a trip';
+  destBtn.classList.toggle('unset', !p);
+}
+function closeDest(refocus) {
+  if (destList.hidden) return;
+  destList.hidden = true;
+  destBtn.setAttribute('aria-expanded', 'false');
+  if (refocus) destBtn.focus();
+}
+destBtn.addEventListener('click', () => {
+  if (!destList.hidden) return closeDest(true);
+  destList.hidden = false;
+  destBtn.setAttribute('aria-expanded', 'true');
+  fitList(destList, '.pick-opt');
+  const on = $('input:checked', destList);
+  if (on) destList.scrollTop = on.closest('label').offsetTop - 6;     // the chosen trip in view
+  (on || $('input', destList)).focus({ preventScroll: true });
+  destList.scrollIntoView({ block: 'nearest', behavior: scrollMode() }); // all of it on screen, clear of the phone bar
+});
+// A tap, Space or Enter picks and closes; arrow keys move through the trips with the list kept open
+let destArrow = false;
+destList.addEventListener('keydown', e => {
+  destArrow = e.key.startsWith('Arrow');
+  if (e.key === 'Enter' || e.key === 'Escape') { e.preventDefault(); closeDest(true); }
+});
+destList.addEventListener('pointerdown', () => { destArrow = false; });
+destList.addEventListener('click', e => { if (e.target.name === 'dest' && !destArrow) closeDest(true); destArrow = false; });
+document.addEventListener('pointerdown', e => { if (!destList.hidden && !e.target.closest('.pick-field')) closeDest(false); });
+destList.addEventListener('focusout', e => { if (e.relatedTarget && !e.relatedTarget.closest('.pick-field')) closeDest(false); });
 
 hForm.addEventListener('change', e => {
   const t = e.target;
@@ -80,14 +112,13 @@ function holidayState() {
   const dest = checked(hForm, 'dest')[0];
   return {
     who: checked(hForm, 'who')[0], n: num('hN'), vibe: checked(hForm, 'vibe')[0],
-    pkg: dest === 'chardham' ? CHARDHAM : pkgById[dest], month: checked(hForm, 'month')[0],
+    pkg: dest === 'chardham' ? CHARDHAM : pkgById[dest], date: hForm.date.value,
     days: num('hDays'), needs: checked(hForm, 'needs'), note: hForm.note.value
   };
 }
 
 // ---------- vehicle form ----------
 $('#placeList').innerHTML = PLACES.map(p => `<option value="${esc(p)}">`).join('');
-$('#vDate').min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
 chips($('#vehicleChips'), 'vehicle', FLEET.map(v => [v.id, v.name]));
 chips($('#typeChips'), 'type', TRIP_TYPES.map(t => [t, t]));
 chips($('#vNeeds'), 'needs', NEEDS_VEHICLE.map(n => [n, n]), 'checkbox');
@@ -115,7 +146,6 @@ function suggest() {
 }
 vForm.addEventListener('change', e => {
   if (e.target.name === 'vehicle') { manualVehicle = true; switchNote = ''; suggest(); }
-  if (e.target.id === 'vDate' && e.target.value && e.target.value < e.target.min) e.target.value = e.target.min;
   render(); announce();
 });
 // A vehicle the visitor picked stays picked; the hint keeps showing what fits.
@@ -129,6 +159,116 @@ function vehicleState() {
     days: num('vDays'), n, vehicle: label, type: checked(vForm, 'type')[0],
     needs: checked(vForm, 'needs'), note: vForm.note.value };
 }
+
+// ---------- Start date calendar (holiday and vehicle forms) ----------
+// The button shows the trip span; the hidden input next to it holds the start date as 'YYYY-MM-DD'.
+// Phones get a sheet from the bottom of the screen (modal dialog), wider screens a panel under the button.
+const DAY_NAMES = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const ymd = (y, m, d) => `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+const partsOf = iso => iso.split('-').map(Number);
+const weekday = iso => { const [y, m, d] = partsOf(iso); return new Date(Date.UTC(y, m - 1, d)).getUTCDay(); };
+const shortDate = iso => `${DAY_NAMES[weekday(iso)].slice(0, 3)} ${partsOf(iso)[2]} ${MONTHS[partsOf(iso)[1] - 1]}`;
+const shiftMonth = ([y, m], k) => { const d = new Date(Date.UTC(y, m - 1 + k, 1)); return [d.getUTCFullYear(), d.getUTCMonth() + 1]; };
+// Pickable days: today (visitor's clock) to the end of the 12th month counting this one
+function dateRange() {
+  const t = new Date(), end = new Date(t.getFullYear(), t.getMonth() + 12, 0);
+  return [ymd(t.getFullYear(), t.getMonth() + 1, t.getDate()), ymd(end.getFullYear(), end.getMonth() + 1, end.getDate())];
+}
+
+function paintDate(btn) {
+  const start = $('#' + btn.dataset.dateFor).value, days = num(btn.dataset.days);
+  $('.date-val', btn).textContent = !start ? 'Pick a date' : days > 1 ? `${shortDate(start)} → ${shortDate(addDays(start, days - 1))}` : shortDate(start);
+  btn.classList.toggle('unset', !start);
+}
+
+function datePicker(btn) {
+  const input = $('#' + btn.dataset.dateFor), cal = document.createElement('dialog');
+  cal.className = 'cal'; cal.id = input.id + 'Cal';
+  cal.setAttribute('aria-label', 'Choose a start date');
+  cal.innerHTML = `<div class="cal-in"><div class="cal-head"><p class="cal-title" id="${cal.id}T" aria-live="polite"></p>`
+    + `<button type="button" class="cal-nav cal-prev" aria-label="Previous month">${icon('i-arrow')}</button>`
+    + `<button type="button" class="cal-nav cal-next" aria-label="Next month">${icon('i-arrow')}</button>`
+    + `<button type="button" class="cal-x" aria-label="Close calendar">×</button></div>`
+    + `<table class="cal-grid" role="grid" aria-labelledby="${cal.id}T"><thead><tr>`
+    + DAY_NAMES.map(d => `<th scope="col" abbr="${d}">${d[0]}</th>`).join('') + '</tr></thead><tbody></tbody></table></div>';
+  btn.setAttribute('aria-controls', cal.id);
+  btn.after(cal);                                   // inside .date-field, so the wide-screen panel sits under the button
+  const body = $('tbody', cal), title = $('.cal-title', cal), prev = $('.cal-prev', cal), next = $('.cal-next', cal);
+  let view, focusIso;                               // view = [year, month] shown; focusIso = the one day Tab reaches
+
+  function draw() {
+    const [y, m] = view, [min, max] = dateRange(), start = input.value;
+    const end = start && addDays(start, num(btn.dataset.days) - 1), n = new Date(Date.UTC(y, m, 0)).getUTCDate();
+    const shown = iso => !!iso && partsOf(iso)[0] === y && partsOf(iso)[1] === m && iso >= min && iso <= max;
+    if (!shown(focusIso)) focusIso = [start, min, ymd(y, m, 1)].find(shown) || min;
+    const cells = Array(weekday(ymd(y, m, 1))).fill('<td></td>');
+    for (let d = 1; d <= n; d++) {
+      const iso = ymd(y, m, d), cls = iso === start ? 'sel' : start && iso > start && iso <= end ? 'stay' : '';
+      cells.push(`<td${iso === start ? ' aria-selected="true"' : ''}><button type="button" data-iso="${iso}"${cls ? ` class="${cls}"` : ''}`
+        + ` tabindex="${iso === focusIso ? 0 : -1}"${iso < min || iso > max ? ' disabled' : ''}${iso === min ? ' aria-current="date"' : ''}`
+        + ` aria-label="${DAY_NAMES[weekday(iso)]} ${d} ${MONTH_NAMES[m - 1]} ${y}">${d}</button></td>`);
+    }
+    while (cells.length % 7) cells.push('<td></td>');
+    body.innerHTML = Array.from({ length: cells.length / 7 }, (_, r) => `<tr>${cells.slice(r * 7, r * 7 + 7).join('')}</tr>`).join('');
+    title.textContent = `${MONTH_NAMES[m - 1]} ${y}`;
+    prev.disabled = ymd(y, m, 1) <= min;            // the current month is the first
+    next.disabled = ymd(y, m, n) >= max;            // the 12th month is the last
+  }
+  const focusDay = () => $(`button[data-iso="${focusIso}"]`, body)?.focus({ preventScroll: true });
+
+  function open() {
+    const [min] = dateRange();
+    focusIso = input.value >= min ? input.value : min;
+    view = partsOf(focusIso).slice(0, 2);
+    draw();
+    const sheet = matchMedia('(max-width: 720px)').matches;
+    if (sheet) cal.showModal(); else cal.show();
+    btn.setAttribute('aria-expanded', 'true');
+    focusDay();
+    if (!sheet) cal.scrollIntoView({ block: 'nearest', behavior: scrollMode() });   // the panel may open below the fold
+  }
+  function close(refocus) {
+    if (!cal.open) return;
+    cal.close();
+    btn.setAttribute('aria-expanded', 'false');
+    if (refocus) btn.focus();
+  }
+
+  btn.addEventListener('click', () => (cal.open ? close(true) : open()));
+  for (const [b, k] of [[prev, -1], [next, 1]]) {
+    b.addEventListener('click', () => { view = shiftMonth(view, k); draw(); if (b.disabled) focusDay(); });
+  }
+  body.addEventListener('click', e => {             // one tap on a day picks it and closes the calendar
+    const b = e.target.closest('button[data-iso]');
+    if (!b || b.disabled) return;
+    input.value = b.dataset.iso;
+    close(true);
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+  });
+  body.addEventListener('keydown', e => {           // arrows move a day or a week, across months
+    const step = { ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7 }[e.key], b = e.target.closest('button[data-iso]');
+    if (!step || !b) return;
+    e.preventDefault();
+    const [min, max] = dateRange(), to = addDays(b.dataset.iso, step);
+    if (to < min || to > max) return;
+    focusIso = to;
+    view = partsOf(to).slice(0, 2);
+    draw();
+    focusDay();
+  });
+  $('.cal-x', cal).addEventListener('click', () => close(true));
+  cal.addEventListener('cancel', e => { e.preventDefault(); close(true); });          // Esc on the phone sheet
+  cal.addEventListener('keydown', e => { if (e.key === 'Escape') { e.preventDefault(); close(true); } });
+  cal.addEventListener('click', e => {              // a tap on the dimmed page around the sheet
+    const r = cal.getBoundingClientRect();
+    if (e.target === cal && (e.clientY < r.top || e.clientY > r.bottom || e.clientX < r.left || e.clientX > r.right)) close(true);
+  });
+  // wide screens: a click elsewhere, or tabbing out of the panel, closes it
+  document.addEventListener('pointerdown', e => { if (cal.open && !cal.matches(':modal') && !cal.contains(e.target) && !btn.contains(e.target)) close(false); });
+  cal.addEventListener('focusout', e => { if (!cal.matches(':modal') && e.relatedTarget && !cal.contains(e.relatedTarget) && e.relatedTarget !== btn) close(false); });
+}
+$$('.date-btn').forEach(datePicker);
 
 // ---------- mode switch ----------
 let mode = 'holiday';
@@ -157,22 +297,22 @@ function setBg(src = 'images/hero.jpg') {
 // ---------- ticket ----------
 let lastRoute = '';
 function render() {
+  $$('.date-btn').forEach(paintDate);   // the trip span on each Start date button follows the days counter
+  paintTrip();
   const rows = [];
   let title, route = '';
   const link = $('#tLink');
   link.hidden = true;
   if (mode === 'holiday') {
     const s = holidayState();
-    title = s.pkg ? s.pkg.name : s.vibe ? `A ${s.vibe.toLowerCase()} trip, planned for you` : s.who ? `${s.who} trip, where to?` : "Tell us who's going";
-    if (s.pkg) route = routeHTML(s.pkg.start || (s.pkg.group === 'intl' ? 'Delhi ✈' : 'Delhi'), s.pkg.route);
+    title = s.pkg ? s.pkg.name : s.vibe ? `A ${s.vibe.toLowerCase()} trip, where to?` : s.who ? `${s.who} trip, where to?` : "Tell us who's going";
+    // the stops only: the package's nights per stop would contradict the visitor's own days
+    if (s.pkg) route = routeHTML(s.pkg.start || (s.pkg.group === 'intl' ? 'Delhi ✈' : 'Delhi'), s.pkg.route.map(([city]) => [city, '']));
     if (s.who) rows.push(['Travellers', `${s.who} · ${plural(s.n, 'person', 'people')}`]);
     if (s.vibe) rows.push(['Vibe', s.vibe]);
-    rows.push(s.pkg ? ['Trip', s.pkg.name + (s.pkg.duration ? ` · ${s.pkg.duration}` : '')] : ['Trip', 'We suggest', true]);
-    rows.push(s.month ? ['When', `${s.month} · ${plural(s.days, 'day', 'days')}`] : ['When', `${plural(s.days, 'day', 'days')} · any month`, true]);
-    if (s.pkg && s.pkg.url) {
-      rows.push(['From', `${s.pkg.price} ${s.pkg.per}`]);
-      link.href = s.pkg.url; link.hidden = false;
-    }
+    rows.push(s.pkg ? ['Trip', s.pkg.name] : ['Trip', 'Choose a trip', true]);
+    rows.push(s.date ? ['When', `${niceDate(s.date)} · ${plural(s.days, 'day', 'days')}`] : ['When', `${plural(s.days, 'day', 'days')} · pick a date`, true]);
+    if (s.pkg && s.pkg.url) { link.href = s.pkg.url; link.hidden = false; }   // the ready-made trip's page, to compare with
     if (s.needs.length) rows.push(['Needs', s.needs.join(', ')]);
   } else {
     const s = vehicleState();
@@ -290,12 +430,18 @@ $$('[data-jump]').forEach(chip => chip.addEventListener('click', () => {
 }));
 
 // ---------- trip styles ----------
+// Char Dham is a request, not a package: the trip style and the Packages menu (index.html?plan=chardham) both start it here
+function planCharDham() {
+  setMode('holiday');
+  pick(hForm, 'who', 'Family'); pick(hForm, 'vibe', 'Spiritual'); pick(hForm, 'dest', 'chardham');
+  goPlan();
+}
 $$('[data-style]').forEach(t => t.addEventListener('click', () => {
   const s = t.dataset.style;
   if (s === 'events') { setMode('vehicle'); pick(vForm, 'type', 'Wedding'); goPlan(); return; }
+  if (s === 'chardham') return planCharDham();
   setMode('holiday');
   if (s === 'honeymoon') { pick(hForm, 'who', 'Couple'); pick(hForm, 'vibe', 'Honeymoon'); }
-  if (s === 'chardham') { pick(hForm, 'who', 'Family'); pick(hForm, 'vibe', 'Spiritual'); pick(hForm, 'dest', 'chardham'); }
   if (s === 'groups') { pick(hForm, 'who', 'Group'); }
   goPlan();
 }));
@@ -349,4 +495,4 @@ addEventListener('resize', syncReviewBtns);
 syncReviewBtns();
 
 // Arriving from a trip page's "Plan this trip"
-{ const id = new URLSearchParams(location.search).get('plan'); if (Object.hasOwn(pkgById, id)) planTrip(id); }
+{ const id = new URLSearchParams(location.search).get('plan'); if (id === 'chardham') planCharDham(); else if (Object.hasOwn(pkgById, id)) planTrip(id); }

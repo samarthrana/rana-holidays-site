@@ -30,8 +30,8 @@ const VIBES = [
   { id: 'Honeymoon', img: 'images/vibe-honeymoon.jpg', pkgs: ['himachal', 'kashmir', 'goa', 'andaman', 'kutch', 'thailand', 'srilanka', 'vietnam'] }
 ];
 
-const WHO = [['Couple', 2], ['Family', 4], ['Friends', 4], ['Group', 10], ['Solo', 1]];
-const NEEDS_HOLIDAY = ['Senior citizens', 'Kids', 'Veg / Jain food', '4★+ hotels', 'Budget stays', 'Airport / station pick-up', 'Extra luggage'];
+const WHO = [['Couple', 2], ['Family', 4], ['Friends', 4], ['Group', 10]];
+const NEEDS_HOLIDAY = ['Senior citizens', 'Kids', 'Veg / Jain food', '4★+ hotels', 'Budget stays'];
 const NEEDS_VEHICLE = ['Luggage carrier', 'Multiple vehicles', 'Senior citizens', 'Night travel'];
 const TRIP_TYPES = ['Outstation', 'Wedding', 'Corporate', 'Pilgrimage'];
 const PLACES = ['Manali', 'Shimla', 'Dharamshala', 'Haridwar', 'Rishikesh', 'Char Dham Yatra', 'Mussoorie',

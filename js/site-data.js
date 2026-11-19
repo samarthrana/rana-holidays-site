@@ -27,8 +27,6 @@ const PACKAGES = [
     "1N"
    ]
   ],
-  "price": "₹35,000",
-  "per": "per person",
   "places": [
    "Atal Tunnel",
    "Bhagsu Waterfall",
@@ -114,8 +112,6 @@ const PACKAGES = [
     "1N"
    ]
   ],
-  "price": "₹18,300",
-  "per": "per person",
   "places": [
    "Aroma Park Corbett",
    "Bhimtal Lake",
@@ -190,8 +186,6 @@ const PACKAGES = [
    ]
   ],
   "start": "Delhi ✈",
-  "price": "₹25,000",
-  "per": "per person",
   "places": [
    "Aru Valley",
    "Awantipora Ruins",
@@ -254,8 +248,6 @@ const PACKAGES = [
    ]
   ],
   "start": "Delhi ✈",
-  "price": "₹32,000",
-  "per": "per person",
   "places": [
    "Architectural Marvels",
    "Bada Bagh",
@@ -327,8 +319,6 @@ const PACKAGES = [
    ]
   ],
   "start": "Delhi ✈",
-  "price": "₹38,000",
-  "per": "per person",
   "places": [
    "Assam",
    "Basis",
@@ -382,8 +372,6 @@ const PACKAGES = [
    ]
   ],
   "start": "Delhi ✈",
-  "price": "₹35,000",
-  "per": "per person",
   "places": [
    "Anjuna Flea Market",
    "Arabian Sea",
@@ -463,8 +451,6 @@ const PACKAGES = [
     "3N"
    ]
   ],
-  "price": "₹22,000",
-  "per": "per person",
   "places": [
    "Asian",
    "Canter Safari",
@@ -516,8 +502,6 @@ const PACKAGES = [
    ]
   ],
   "start": "Delhi ✈",
-  "price": "₹25,000",
-  "per": "per person",
   "places": [
    "Activities",
    "Aina Mahal",
@@ -579,8 +563,6 @@ const PACKAGES = [
    ]
   ],
   "start": "Delhi ✈",
-  "price": "₹26,000",
-  "per": "per person",
   "places": [
    "Andaman",
    "Arina Island Resort",
@@ -629,8 +611,6 @@ const PACKAGES = [
    ]
   ],
   "start": "Delhi ✈",
-  "price": "₹21,500",
-  "per": "per person",
   "places": [
    "Aarti",
    "Akshay Vat",
@@ -700,8 +680,6 @@ const PACKAGES = [
     "2N"
    ]
   ],
-  "price": "₹43,000",
-  "per": "per person",
   "places": [
    "Ao Nang",
    "Beach",
@@ -754,8 +732,6 @@ const PACKAGES = [
     "3N"
    ]
   ],
-  "price": "₹66,000",
-  "per": "per person",
   "places": [
    "American",
    "Bai Tu Long Bay",
@@ -842,8 +818,6 @@ const PACKAGES = [
     "Day 4"
    ]
   ],
-  "price": "₹26,140",
-  "per": "per person",
   "places": [
    "Chocolate Boutique",
    "Dataran Merdeka",
@@ -893,8 +867,6 @@ const PACKAGES = [
     "1N"
    ]
   ],
-  "price": "₹41,000",
-  "per": "per person",
   "places": [
    "Ashok Vatika",
    "Avukana Buddha",
@@ -986,8 +958,6 @@ const PACKAGES = [
     "1N"
    ]
   ],
-  "price": "₹40,000",
-  "per": "per person",
   "places": [
    "Bagdogra",
    "Bhutanese",
@@ -1036,8 +1006,6 @@ const PACKAGES = [
     "1N"
    ]
   ],
-  "price": "₹29,500",
-  "per": "per person",
   "places": [
    "Barahi Temple",
    "Bindabasini Temple",

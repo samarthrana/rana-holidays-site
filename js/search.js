@@ -96,6 +96,7 @@ function searchBox(form) {
       + hits.filter(r => r.p.group === g).map(r => option(r, i++)).join('') + '</div>').join('');
     opts = $$('[role="option"]', list);
     none.hidden = true; list.hidden = false;
+    fitList(list, '.search-opt');
     input.setAttribute('aria-expanded', 'true');
     status.textContent = q ? `${opts.length} ${opts.length === 1 ? 'trip' : 'trips'} found` : `${opts.length} trips`;
     setActive(-1);
