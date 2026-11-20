@@ -3,7 +3,7 @@ const SITE = {"whatsapp": "918130587859"};
 const PACKAGES = [
  {
   "id": "himachal",
-  "url": "trips/himachal-delight.html",
+  "url": "trips/himachal-delight",
   "group": "india",
   "vibe": "Mountains",
   "name": "Himachal Delight",
@@ -88,7 +88,7 @@ const PACKAGES = [
  },
  {
   "id": "uttarakhand",
-  "url": "trips/wonderful-uttarakhand.html",
+  "url": "trips/wonderful-uttarakhand",
   "group": "india",
   "vibe": "Mountains",
   "name": "Wonderful Uttarakhand",
@@ -157,7 +157,7 @@ const PACKAGES = [
  },
  {
   "id": "kashmir",
-  "url": "trips/enchanting-kashmir.html",
+  "url": "trips/enchanting-kashmir",
   "group": "india",
   "vibe": "Mountains",
   "name": "Enchanting Kashmir",
@@ -227,7 +227,7 @@ const PACKAGES = [
  },
  {
   "id": "rajasthan",
-  "url": "trips/jaisalmer-jodhpur.html",
+  "url": "trips/jaisalmer-jodhpur",
   "group": "india",
   "vibe": "Cities",
   "name": "Jaisalmer & Jodhpur",
@@ -298,7 +298,7 @@ const PACKAGES = [
  },
  {
   "id": "northeast",
-  "url": "trips/seven-sisters-scenic-trail.html",
+  "url": "trips/seven-sisters-scenic-trail",
   "group": "india",
   "vibe": "Mountains",
   "name": "Seven Sisters Scenic Trail",
@@ -355,7 +355,7 @@ const PACKAGES = [
  },
  {
   "id": "goa",
-  "url": "trips/complete-goa-odyssey.html",
+  "url": "trips/complete-goa-odyssey",
   "group": "india",
   "vibe": "Beaches",
   "name": "The Complete Goa Odyssey",
@@ -439,7 +439,7 @@ const PACKAGES = [
  },
  {
   "id": "corbett",
-  "url": "trips/jim-corbett-national-park.html",
+  "url": "trips/jim-corbett-national-park",
   "group": "india",
   "vibe": "Mountains",
   "name": "Jim Corbett National Park Tour",
@@ -481,7 +481,7 @@ const PACKAGES = [
  },
  {
   "id": "kutch",
-  "url": "trips/rann-of-kutch.html",
+  "url": "trips/rann-of-kutch",
   "group": "india",
   "vibe": "Cities",
   "name": "Rann of Kutch",
@@ -542,7 +542,7 @@ const PACKAGES = [
  },
  {
   "id": "andaman",
-  "url": "trips/andaman-islands.html",
+  "url": "trips/andaman-islands",
   "group": "india",
   "vibe": "Beaches",
   "name": "Andaman Island Escape",
@@ -590,7 +590,7 @@ const PACKAGES = [
  },
  {
   "id": "ayodhya",
-  "url": "trips/ayodhya-prayagraj-varanasi.html",
+  "url": "trips/ayodhya-prayagraj-varanasi",
   "group": "india",
   "vibe": "Spiritual",
   "name": "Ayodhya, Prayagraj & Varanasi",
@@ -664,7 +664,7 @@ const PACKAGES = [
  },
  {
   "id": "thailand",
-  "url": "trips/phuket-krabi.html",
+  "url": "trips/phuket-krabi",
   "group": "intl",
   "vibe": "Beaches",
   "name": "Phuket & Krabi",
@@ -712,7 +712,7 @@ const PACKAGES = [
  },
  {
   "id": "vietnam",
-  "url": "trips/hanoi-halong-saigon.html",
+  "url": "trips/hanoi-halong-saigon",
   "group": "intl",
   "vibe": "Cities",
   "name": "Hanoi, Ha Long Bay & Saigon",
@@ -794,7 +794,7 @@ const PACKAGES = [
  },
  {
   "id": "malaysia",
-  "url": "trips/malaysia-escape.html",
+  "url": "trips/malaysia-escape",
   "group": "intl",
   "vibe": "Cities",
   "name": "Malaysia Escape",
@@ -843,7 +843,7 @@ const PACKAGES = [
  },
  {
   "id": "srilanka",
-  "url": "trips/discover-sri-lanka.html",
+  "url": "trips/discover-sri-lanka",
   "group": "intl",
   "vibe": "Beaches",
   "name": "Discover the Beauty of Sri Lanka",
@@ -934,7 +934,7 @@ const PACKAGES = [
  },
  {
   "id": "bhutan",
-  "url": "trips/bhutan-thimphu-punakha-paro.html",
+  "url": "trips/bhutan-thimphu-punakha-paro",
   "group": "intl",
   "vibe": "Mountains",
   "name": "Bhutan: Thimphu, Punakha & Paro",
@@ -986,7 +986,7 @@ const PACKAGES = [
  },
  {
   "id": "nepal",
-  "url": "trips/nepal-kathmandu-pokhara.html",
+  "url": "trips/nepal-kathmandu-pokhara",
   "group": "intl",
   "vibe": "Mountains",
   "name": "Nepal: Kathmandu & Pokhara",

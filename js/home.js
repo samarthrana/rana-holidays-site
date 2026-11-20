@@ -410,7 +410,7 @@ function showGroup(group) {
 $$('.tab').forEach(t => t.addEventListener('click', () => showGroup(t.dataset.group)));
 syncTabs($('.tabs'));
 
-// Pre-fill the builder with a package (trip pages link here as index.html?plan=<id>#plan)
+// Pre-fill the builder with a package (trip pages link here as ../?plan=<id>#plan)
 function planTrip(id) {
   const p = pkgById[id];
   setMode('holiday');
@@ -432,7 +432,7 @@ $$('[data-jump]').forEach(chip => chip.addEventListener('click', () => {
 }));
 
 // ---------- trip styles ----------
-// Char Dham is a request, not a package: the trip style and the Packages menu (index.html?plan=chardham) both start it here
+// Char Dham is a request, not a package: the trip style and the Packages menu (?plan=chardham) both start it here
 function planCharDham() {
   setMode('holiday');
   pick(hForm, 'who', 'Family'); pick(hForm, 'vibe', 'Spiritual'); pick(hForm, 'dest', 'chardham');

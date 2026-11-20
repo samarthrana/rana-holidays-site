@@ -1,5 +1,15 @@
 // Rana Holidays: shared by the home page and the trip pages. Needs site-data.js.
 
+// Old addresses (bookmarks, shared links) still open the page; the address bar then shows the clean one:
+// /trips/goa.html → /trips/goa, /index.html#fleet → /#fleet, /index → /. Same folder, so every relative link stays
+// the same; no new history entry, so Back still leaves the page. Only on the website itself (not a file opened from disk).
+try {
+  const clean = location.pathname.replace(/\/index(\.html)?$/, '/').replace(/\.html$/, '');
+  if (clean !== location.pathname && /^https?:$/.test(location.protocol)) {
+    history.replaceState(history.state, '', location.origin + clean + location.search + location.hash);
+  }
+} catch (e) { /* the address bar is cosmetic: never stop the page over it */ }
+
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const icon = id => `<svg class="ic"><use href="#${id}"/></svg>`;
